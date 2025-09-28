@@ -1,0 +1,31 @@
+﻿@model List<Brand>
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Thương hiệu";
+}
+
+<h2>Danh sách thương hiệu</h2>
+
+<a class="btn btn-primary mb-3" asp-action="Create">Thêm thương hiệu</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên thương hiệu</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BrandName</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.BrandID">Sửa</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.BrandID">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

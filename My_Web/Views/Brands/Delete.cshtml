@@ -1,0 +1,18 @@
+﻿@model Brand
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Xóa thương hiệu";
+}
+
+<h2>Bạn có chắc muốn xóa thương hiệu này?</h2>
+
+<div>
+    <strong>@Model.BrandName</strong>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="BrandID" />
+    <button type="submit" class="btn btn-danger mt-2">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Hủy</a>
+</form>

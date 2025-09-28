@@ -1,0 +1,51 @@
+﻿@model List<My_Web.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<h2>Danh sách sản phẩm</h2>
+
+<a class="btn btn-success mb-3" asp-controller="Products" asp-action="Create">+ Thêm sản phẩm</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Thương hiệu</th>
+            <th>Danh mục</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Ảnh</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Brand?.BrandName</td>
+                <td>@item.Category?.CategoryName</td>
+                <td>@item.Price.ToString("N0")</td>
+                <td>@item.Quantity</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@item.Image" alt="Ảnh sản phẩm" width="80" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Không có ảnh</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-info btn-sm" asp-action="Details" asp-route-id="@item.ProductID">Xem</a>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.ProductID">Sửa</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.ProductID" onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,18 @@
+﻿@model My_Web.Models.Order
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Cập nhật trạng thái đơn hàng";
+}
+
+<h2>Cập nhật trạng thái đơn hàng #@Model.OrderID</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="OrderID" />
+    <select asp-for="Status" class="form-control">
+        <option value="pending">Chưa xác nhận</option>
+        <option value="processing">Đang chuẩn bị hàng</option>
+        <option value="shipping">Đang vận chuyển</option>
+        <option value="delivered">Đã giao</option>
+    </select>
+    <button type="submit">Cập nhật</button>
+</form>

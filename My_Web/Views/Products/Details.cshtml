@@ -1,0 +1,44 @@
+﻿@model My_Web.Models.Product
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<h2>Chi tiết sản phẩm</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Tên sản phẩm</th>
+        <td>@Model.ProductName</td>
+    </tr>
+    <tr>
+        <th>Giá</th>
+        <td>@Model.Price.ToString("N0")</td>
+    </tr>
+    <tr>
+        <th>Số lượng</th>
+        <td>@Model.Quantity</td>
+    </tr>
+    <tr>
+        <th>Thương hiệu</th>
+        <td>@Model.Brand?.BrandName</td>
+    </tr>
+    <tr>
+        <th>Danh mục</th>
+        <td>@Model.Category?.CategoryName</td>
+    </tr>
+    <tr>
+        <th>Ảnh</th>
+        <td>
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <img src="@Model.Image" alt="Ảnh sản phẩm" width="150" class="img-thumbnail" />
+            }
+            else
+            {
+                <span class="text-muted">Không có ảnh</span>
+            }
+        </td>
+    </tr>
+</table>

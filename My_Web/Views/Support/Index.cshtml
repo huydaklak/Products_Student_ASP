@@ -1,0 +1,27 @@
+﻿@model List<My_Web.Models.Message>
+@{
+    ViewData["Title"] = "Hộp thư hỗ trợ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Hộp thư hỗ trợ</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Người gửi</th>
+            <th>Nội dung</th>
+            <th>Thời gian</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var msg in Model)
+        {
+            <tr>
+                <td>@msg.User?.FullName</td>
+                <td>@msg.Content</td>
+                <td>@msg.Timestamp.ToString("dd/MM/yyyy HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>

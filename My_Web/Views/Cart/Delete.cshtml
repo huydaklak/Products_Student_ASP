@@ -1,0 +1,18 @@
+﻿@model Cart
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Xóa khỏi giỏ hàng";
+}
+
+<h2>Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?</h2>
+
+<p><strong>Sản phẩm:</strong> @Model.Product?.ProductName</p>
+<p><strong>Số lượng:</strong> @Model.Quantity</p>
+<p><strong>Thành tiền:</strong> @(Model.Quantity* Model.Product.Price).ToString("N0") VNĐ</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="CartID" />
+    <button type="submit" class="btn btn-danger mt-2">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Hủy</a>
+</form>

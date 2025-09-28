@@ -1,0 +1,19 @@
+﻿@model Review
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Xóa đánh giá";
+}
+
+<h2>Bạn có chắc muốn xóa đánh giá này?</h2>
+
+<p><strong>Sản phẩm:</strong> @Model.Product?.ProductName</p>
+<p><strong>Người dùng:</strong> @Model.User?.FullName</p>
+<p><strong>Nội dung:</strong> @Model.Content</p>
+<p><strong>Rating:</strong> @Model.Rating / 5</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="ReviewID" />
+    <button type="submit" class="btn btn-danger mt-2">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Hủy</a>
+</form>

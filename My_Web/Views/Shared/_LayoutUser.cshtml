@@ -1,0 +1,156 @@
+﻿@using My_Web.Models
+@{
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+    int cartCount = ViewBag.CartCount != null ? (int)ViewBag.CartCount : 0;
+    var products = ViewBag.Products as List<Product> ?? new List<Product>();
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Trang người dùng</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/My_Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="bg-warning py-2 px-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="~/images/logo.png" alt="Logo" style="height: 40px;" class="me-2" />
+                <span class="fw-bold fs-5 text-dark">thegioididong</span>
+            </div>
+            <div class="flex-grow-1 mx-3">
+                <input type="text" class="form-control" placeholder="Nhập mã giảm giá..." />
+            </div>
+            <div class="d-flex align-items-center">
+                <button class="btn btn-outline-dark me-3">Đăng nhập</button>
+                <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-dark position-relative">
+                    <i class="bi bi-cart"></i> Giỏ hàng
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        @cartCount
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Thương hiệu -->
+        <div class="bg-light py-2 px-3 border-bottom">
+            <strong>Thương hiệu:</strong>
+            <span class="badge bg-secondary me-1">Acer</span>
+            <span class="badge bg-secondary me-1">Asus</span>
+            <span class="badge bg-secondary me-1">Dell</span>
+            <span class="badge bg-secondary me-1">HP</span>
+            <span class="badge bg-secondary me-1">Lenovo</span>
+            <span class="badge bg-secondary me-1">Apple</span>
+            <span class="badge bg-secondary me-1">MSI</span>
+            <span class="badge bg-secondary me-1">Gigabyte</span>
+            <span class="badge bg-secondary me-1">LG</span>
+        </div>
+
+        <!-- Danh mục từ CSDL -->
+        <div class="bg-light py-2 px-3 border-bottom">
+            <strong>Danh mục:</strong>
+            @if (categories.Any())
+            {
+                foreach (var cat in categories)
+                {
+                    <a asp-controller="Products" asp-action="ListByCategory" asp-route-id="@cat.CategoryID" class="badge bg-primary me-1 text-decoration-none">
+                        @cat.CategoryName
+                    </a>
+                }
+            }
+            else
+            {
+                <span class="text-muted">Không có danh mục nào</span>
+            }
+        </div>
+
+        <!-- Menu sản phẩm -->
+        <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="menuNavbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#">Điện thoại</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Laptop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Phụ kiện</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Đồng hồ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Tablet</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Máy tính để bàn</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Máy in</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Sim, Thẻ cào</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Dịch vụ tiện ích</a></li>
+                        <li class="nav-item"><a class="nav-link text-danger fw-bold" asp-controller="Support" asp-action="SendMessage">Gửi hỗ trợ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            <div class="row g-4">
+                <!-- Bên trái -->
+                <div class="col-md-6">
+                    <h4 class="mb-3">Thông tin bên trái</h4>
+                    <ul class="list-group">
+                        <li class="list-group-item">Sản phẩm nổi bật</li>
+                        <li class="list-group-item">Khuyến mãi đặc biệt</li>
+                        <li class="list-group-item">Tin công nghệ</li>
+                    </ul>
+                </div>
+
+                <!-- Bên phải với sản phẩm -->
+                <div class="col-md-6">
+                    <h4 class="mb-3">Sản phẩm mới nhất</h4>
+                    @if (products.Any())
+                    {
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            @foreach (var p in products)
+                            {
+                                <div class="col">
+                                    <div class="card h-100 shadow-sm">
+                                        <img src="@p.Image" class="card-img-top" alt="@p.ProductName" style="height: 200px; object-fit: cover;" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">@p.ProductName</h5>
+                                            <p class="card-text text-danger fw-bold">@p.Price.ToString("N0") ₫</p>
+                                            <p class="card-text"><small class="text-muted">@p.Brand?.BrandName - @p.Category?.CategoryName</small></p>
+                                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.ProductID" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Không có sản phẩm nào để hiển thị.</p>
+                    }
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container text-center">
+            &copy; @DateTime.Now.Year - My Web
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

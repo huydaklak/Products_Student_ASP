@@ -1,0 +1,38 @@
+﻿@model List<My_Web.Models.User>
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+}
+
+<h2>Danh sách người dùng</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<a class="btn btn-primary mb-3" asp-action="Create">Thêm người dùng</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Vai trò</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@user.UserID">Sửa</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@user.UserID">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

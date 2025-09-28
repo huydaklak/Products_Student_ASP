@@ -1,0 +1,28 @@
+﻿@model My_Web.Models.Message
+@{
+    ViewData["Title"] = "Gửi tin nhắn hỗ trợ";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h2>Gửi tin nhắn hỗ trợ</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<form asp-action="SendMessage" method="post">
+    <div class="form-group">
+        <label asp-for="Content">Nội dung</label>
+        <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="UserID" value="1" /> <!-- hoặc lấy từ session -->
+
+    <button type="submit" class="btn btn-success mt-2">Gửi</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

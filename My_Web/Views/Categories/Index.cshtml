@@ -1,0 +1,33 @@
+﻿@model List<Category>
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Danh mục sản phẩm";
+}
+
+<h2>Danh mục sản phẩm</h2>
+
+<a class="btn btn-primary mb-3" asp-action="Create">Thêm danh mục</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên danh mục</th>
+            <th>Mô tả</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryName</td>
+                <td>@item.Description</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.CategoryID">Sửa</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.CategoryID">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

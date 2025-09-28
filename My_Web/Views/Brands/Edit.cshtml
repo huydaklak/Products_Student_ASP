@@ -1,0 +1,17 @@
+﻿@model Brand
+
+@{
+    Layout = ViewData["Layout"]?.ToString() ?? "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Sửa thương hiệu";
+}
+
+<h2>Sửa thương hiệu</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="BrandID" />
+    <div class="form-group">
+        <label>Tên thương hiệu</label>
+        <input asp-for="BrandName" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Cập nhật</button>
+</form>

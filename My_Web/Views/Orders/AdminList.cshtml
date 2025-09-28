@@ -1,0 +1,64 @@
+﻿@model List<My_Web.Models.Order>
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Danh sách đơn hàng (Admin)";
+}
+
+<h2>Danh sách đơn hàng (Admin)</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã đơn</th>
+            <th>Người đặt</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderID</td>
+                <td>@order.User?.FullName</td>
+                <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@order.TotalAmount.ToString("N0") VNĐ</td>
+                <td>
+                    @switch (order.Status)
+                    {
+                        case "pending":
+                            <span class="badge bg-warning text-dark">Chưa xác nhận</span>
+                            break;
+                        case "processing":
+                            <span class="badge bg-info text-dark">Đang chuẩn bị hàng</span>
+                            break;
+                        case "shipping":
+                            <span class="badge bg-primary">Đang vận chuyển</span>
+                            break;
+                        case "delivered":
+                            <span class="badge bg-success">Đã giao</span>
+                            break;
+                        default:
+                            <span class="badge bg-secondary">Không xác định</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@order.OrderID">Xem</a>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@order.OrderID">Sửa</a>
+                    @if (order.CanCancel)
+                    {
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@order.OrderID">Hủy</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
