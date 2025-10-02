@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Trang chủ";
     var products = ViewBag.Products as List<Product> ?? new List<Product>();
+    var isLoggedIn = Context.Session.GetInt32("UserId") != null;
 }
 
 <div class="container">
@@ -37,22 +38,42 @@
                                 </a>
 
                                 <!-- Thêm vào giỏ -->
-                                <form asp-area="User" asp-controller="Cart" asp-action="AddToCart" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="productId" value="@p.ProductID" />
-                                    <button type="submit" class="btn btn-sm btn-outline-success w-100">
-                                        🛒 Thêm vào giỏ
-                                    </button>
-                                </form>
+                                @if (isLoggedIn)
+                                {
+                                    <form asp-area="User" asp-controller="Cart" asp-action="AddToCart" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@p.ProductID" />
+                                        <button type="submit" class="btn btn-sm btn-outline-success w-100">
+                                            🛒 Thêm vào giỏ
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a asp-area="User" asp-controller="Account" asp-action="Login"
+                                       class="btn btn-sm btn-outline-success w-100">
+                                        🛒 Đăng nhập để thêm vào giỏ
+                                    </a>
+                                }
 
                                 <!-- Mua ngay -->
-                                <form asp-area="User" asp-controller="Order" asp-action="BuyNow" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="productId" value="@p.ProductID" />
-                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
-                                        ⚡ Mua ngay
-                                    </button>
-                                </form>
+                                @if (isLoggedIn)
+                                {
+                                    <form asp-area="User" asp-controller="Order" asp-action="BuyNow" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@p.ProductID" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                            ⚡ Mua ngay
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a asp-area="User" asp-controller="Account" asp-action="Login"
+                                       class="btn btn-sm btn-outline-danger w-100">
+                                        ⚡ Đăng nhập để mua ngay
+                                    </a>
+                                }
                             </div>
                         </div>
                     </div>

@@ -19,18 +19,18 @@ namespace My_Web.Areas.User.Controllers
         // Trang thanh toán
         public IActionResult Checkout()
         {
-            var email = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(email))
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (!userId.HasValue)
             {
                 TempData["Error"] = "Vui lòng đăng nhập để thanh toán!";
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account", new { area = "User" });
             }
 
-            var cart = _cartService.GetCart(email) ?? new List<CartItem>();
+            var cart = _cartService.GetCart(userId.Value) ?? new List<CartItem>();
             if (cart.Count == 0)
             {
                 TempData["Error"] = "Giỏ hàng của bạn đang trống!";
-                return RedirectToAction("Index", "Cart");
+                return RedirectToAction("Index", "Cart", new { area = "User" });
             }
 
             return View(cart);
@@ -41,24 +41,24 @@ namespace My_Web.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult PlaceOrder(OrderViewModel model)
         {
-            var email = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(email))
-                return RedirectToAction("Login", "Account");
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (!userId.HasValue)
+                return RedirectToAction("Login", "Account", new { area = "User" });
 
-            var orderId = _orderService.PlaceOrder(email, model);
+            var orderId = _orderService.PlaceOrder(userId.Value, model);
 
             TempData["Success"] = "Đặt hàng thành công!";
             return RedirectToAction("Confirmation", new { id = orderId });
         }
 
-        // Xác nhận (chi tiết) đơn hàng
+        // Xác nhận đơn hàng
         public IActionResult Confirmation(int id)
         {
-            var order = _orderService.GetOrderDetails(id); // dùng service
+            var order = _orderService.GetOrderDetails(id);
             if (order == null)
             {
                 TempData["Error"] = "Không tìm thấy đơn hàng!";
-                return RedirectToAction("History");
+                return RedirectToAction("History", new { area = "User" });
             }
 
             return View(order);
@@ -67,11 +67,11 @@ namespace My_Web.Areas.User.Controllers
         // Lịch sử đơn hàng
         public IActionResult History()
         {
-            var email = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(email))
-                return RedirectToAction("Login", "Account");
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (!userId.HasValue)
+                return RedirectToAction("Login", "Account", new { area = "User" });
 
-            var orders = _orderService.GetOrders(email);
+            var orders = _orderService.GetOrders(userId.Value);
             return View(orders);
         }
 
@@ -80,17 +80,15 @@ namespace My_Web.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult BuyNow(int productId)
         {
-            // CHÚ Ý: OrderService.CreateOrder hiện tại của bạn nhận (int productId, string userId)
-            // và parse userId thành int. Vì vậy ở đây ta sẽ lấy "UserId" từ Session (lưu trước khi login).
-            var userId = HttpContext.Session.GetString("UserId"); // đây là string id (vd "5")
-            if (string.IsNullOrEmpty(userId))
-                return RedirectToAction("Login", "Account");
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (!userId.HasValue)
+                return RedirectToAction("Login", "Account", new { area = "User" });
 
-            var orderId = _orderService.CreateOrder(productId, userId);
+            var orderId = _orderService.CreateOrder(productId, userId.Value);
             return RedirectToAction("Confirmation", new { id = orderId });
         }
 
-        // Details (dùng service)
+        // Chi tiết đơn hàng
         public IActionResult Details(int id)
         {
             var order = _orderService.GetOrderDetails(id);

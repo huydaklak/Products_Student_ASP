@@ -46,9 +46,31 @@ wwwroot\css\admin.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\anh1.jpg
+wwwroot\images\anh10.jpg
+wwwroot\images\anh11.jpg
+wwwroot\images\anh12.jpg
+wwwroot\images\anh13.jpg
+wwwroot\images\anh14.jpg
+wwwroot\images\anh15.jpg
+wwwroot\images\anh16.jpg
+wwwroot\images\anh17.jpg
+wwwroot\images\anh18.jpg
+wwwroot\images\anh19.jpg
+wwwroot\images\anh2.jpg
+wwwroot\images\anh20.jpg
+wwwroot\images\anh21.jpg
+wwwroot\images\anh22.jpg
+wwwroot\images\anh3.jpg
+wwwroot\images\anh4.jpg
+wwwroot\images\anh5.jpg
+wwwroot\images\anh6.jpg
+wwwroot\images\anh7.jpg
+wwwroot\images\anh8.jpg
+wwwroot\images\anh9.jpg
 wwwroot\images\ip17.jpg
 wwwroot\images\iphone14.jpg
 wwwroot\images\logo.png
+wwwroot\images\phone2.png
 wwwroot\images\Screenshot (1).png
 wwwroot\images\Screenshot 2025-07-23 074408.png
 wwwroot\images\Screenshot 2025-07-25 164122.png

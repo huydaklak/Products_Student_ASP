@@ -14,9 +14,9 @@ namespace My_Web.Services
         }
 
         // Đặt hàng từ giỏ
-        public int PlaceOrder(string email, OrderViewModel model)
+        public int PlaceOrder(int userId, OrderViewModel model)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users.FirstOrDefault(u => u.UserID == userId);
             if (user == null) return 0;
 
             var cartItems = _context.CartItems
@@ -48,10 +48,9 @@ namespace My_Web.Services
         }
 
         // Mua ngay một sản phẩm
-        public int CreateOrder(int productId, string userId)
+        public int CreateOrder(int productId, int userId)
         {
-            int uid = int.Parse(userId);
-            var user = _context.Users.FirstOrDefault(u => u.UserID == uid);
+            var user = _context.Users.FirstOrDefault(u => u.UserID == userId);
             if (user == null) return 0;
 
             var product = _context.Products.FirstOrDefault(p => p.ProductID == productId);
@@ -81,9 +80,9 @@ namespace My_Web.Services
         }
 
         // Lấy danh sách đơn hàng của người dùng
-        public List<Order> GetOrders(string email)
+        public List<Order> GetOrders(int userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users.FirstOrDefault(u => u.UserID == userId);
             if (user == null) return new List<Order>();
 
             return _context.Orders

@@ -1,32 +1,40 @@
 ﻿@model List<My_Web.Models.CartItem>
 @{
-    Layout = "~/Views/Shared/layoutuser.cshtml";
+    ViewData["Title"] = "Giỏ hàng";
 }
-<h2>Giỏ hàng của bạn</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá</th>
-            <th>Thành tiền</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Product.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Product.Price.ToString("N0")</td>
-                <td>@(item.Product.Price* item.Quantity).ToString("N0")</td>
-                <td>
-                    <a href="/User/Cart/Remove/@item.ProductID">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-<a href="/User/Order/Checkout">Tiến hành đặt hàng</a>
+<div class="container">
+    <h4 class="mb-4 fw-bold text-primary">Giỏ hàng của bạn</h4>
+
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Product?.ProductName</td>
+                        <td>@item.Product?.Price.ToString("N0") đ</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <a asp-area="User" asp-controller="Cart" asp-action="Remove" asp-route-productId="@item.ProductID"
+                               class="btn btn-sm btn-danger">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning">Giỏ hàng của bạn đang trống.</div>
+    }
+</div>

@@ -1,0 +1,43 @@
+﻿@model My_Web.Models.Product
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<div class="container">
+    <h4 class="mb-4 fw-bold text-primary">Chi tiết sản phẩm</h4>
+
+    <div class="row">
+        <div class="col-md-5">
+            <img src="@Model.Image ?? " /images/default.png"" class="img-fluid rounded shadow-sm"
+                 alt="@Model.ProductName" style="object-fit: cover; max-height: 400px;" />
+        </div>
+
+        <div class="col-md-7">
+            <h5 class="fw-bold">@Model.ProductName</h5>
+            <p class="text-danger fw-bold fs-5">@Model.Price.ToString("N0") đ</p>
+
+            <p><strong>Thương hiệu:</strong> @Model.Brand?.BrandName ?? "Không rõ"</p>
+            <p><strong>Danh mục:</strong> @Model.Category?.CategoryName ?? "Không rõ"</p>
+            <p><strong>Mô tả:</strong> @Model.Description ?? "Không có mô tả"</p>
+            <p><strong>Số lượng còn:</strong> @Model.Quantity</p>
+
+            <div class="d-grid gap-2 mt-4">
+                <form asp-area="User" asp-controller="Cart" asp-action="AddToCart" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.ProductID" />
+                    <button type="submit" class="btn btn-outline-success">
+                        🛒 Thêm vào giỏ
+                    </button>
+                </form>
+
+                <form asp-area="User" asp-controller="Order" asp-action="BuyNow" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.ProductID" />
+                    <button type="submit" class="btn btn-outline-danger">
+                        ⚡ Mua ngay
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

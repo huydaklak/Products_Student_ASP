@@ -40,6 +40,7 @@ namespace My_Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile Image)
         {
             if (ModelState.IsValid)
@@ -66,6 +67,7 @@ namespace My_Web.Areas.Admin.Controllers
             ViewBag.Categories = _context.Categories.ToList();
             return View(product);
         }
+
 
         public IActionResult Edit(int id)
         {

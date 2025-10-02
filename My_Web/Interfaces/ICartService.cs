@@ -4,9 +4,9 @@ namespace My_Web.Interfaces
 {
     public interface ICartService
     {
-        List<CartItem> GetCart(string email);
-        bool AddItem(string email, int productId);
-        bool RemoveItem(string email, int productId);
-        void ClearCart(string email);
+        List<CartItem> GetCart(int userId);
+        bool AddItem(int userId, int productId);
+        bool RemoveItem(int userId, int productId);
+        void ClearCart(int userId);
     }
 }
