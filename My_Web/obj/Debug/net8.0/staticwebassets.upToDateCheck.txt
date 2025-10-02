@@ -42,9 +42,11 @@ C:\Users\ASUS\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bo
 C:\Users\ASUS\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.js.map
 C:\Users\ASUS\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js
 C:\Users\ASUS\.nuget\packages\bootstrap\5.3.8\contentFiles\any\any\wwwroot\js\bootstrap.min.js.map
+wwwroot\css\admin.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\images\anh1.jpg
+wwwroot\images\ip17.jpg
 wwwroot\images\iphone14.jpg
 wwwroot\images\logo.png
 wwwroot\images\Screenshot (1).png

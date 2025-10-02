@@ -1,0 +1,67 @@
+﻿@using My_Web.Models
+@{
+    ViewData["Title"] = "Trang chủ";
+    var products = ViewBag.Products as List<Product> ?? new List<Product>();
+}
+
+<div class="container">
+    <h4 class="mb-4 fw-bold text-primary">Sản phẩm mới nhất</h4>
+
+    @if (products.Any())
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var p in products)
+            {
+                <div class="col">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="@(@p.Image ?? "/images/default.png")" class="card-img-top" alt="@p.ProductName"
+                             style="height: 200px; object-fit: cover;" />
+
+                        <div class="card-body">
+                            <h6 class="card-title text-truncate mb-1">@p.ProductName</h6>
+                            <p class="card-text text-danger fw-bold mb-1">@p.Price.ToString("N0") đ</p>
+                            <p class="card-text mb-2">
+                                <small class="text-muted">
+                                    @(p.Brand?.BrandName ?? "Không rõ thương hiệu") -
+                                    @(p.Category?.CategoryName ?? "Không rõ danh mục")
+                                </small>
+                            </p>
+                        </div>
+
+                        <div class="card-footer bg-white border-top-0">
+                            <div class="d-grid gap-2">
+                                <!-- Xem chi tiết -->
+                                <a asp-area="User" asp-controller="Products" asp-action="Details" asp-route-id="@p.ProductID"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Xem chi tiết
+                                </a>
+
+                                <!-- Thêm vào giỏ -->
+                                <form asp-area="User" asp-controller="Cart" asp-action="AddToCart" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@p.ProductID" />
+                                    <button type="submit" class="btn btn-sm btn-outline-success w-100">
+                                        🛒 Thêm vào giỏ
+                                    </button>
+                                </form>
+
+                                <!-- Mua ngay -->
+                                <form asp-area="User" asp-controller="Order" asp-action="BuyNow" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@p.ProductID" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                        ⚡ Mua ngay
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Không có sản phẩm nào để hiển thị.</div>
+    }
+</div>

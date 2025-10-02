@@ -1,7 +1,7 @@
 ﻿@using My_Web.Models
 @{
     var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
-    int cartCount = ViewBag.CartCount != null ? (int)ViewBag.CartCount : 0;
+    int cartCount = ViewBag.CartCount as int? ?? 0;
     var products = ViewBag.Products as List<Product> ?? new List<Product>();
 }
 
@@ -19,16 +19,82 @@
 <body>
     <!-- HEADER -->
     <header>
+        <!-- Logo, tìm kiếm, tài khoản, giỏ hàng -->
         <div class="bg-warning py-2 px-3 d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
                 <img src="~/images/logo.png" alt="Logo" style="height: 40px;" class="me-2" />
-                <span class="fw-bold fs-5 text-dark">thegioididong</span>
+                <span class="fw-bold fs-5 text-dark">My Web</span>
             </div>
             <div class="flex-grow-1 mx-3">
                 <input type="text" class="form-control" placeholder="Nhập mã giảm giá..." />
             </div>
             <div class="d-flex align-items-center">
-                <button class="btn btn-outline-dark me-3">Đăng nhập</button>
+                <!-- Nút mở modal -->
+                <button class="btn btn-outline-dark me-3" data-bs-toggle="modal" data-bs-target="#authModal">
+                    Đăng nhập / Đăng ký
+                </button>
+
+                <!-- Modal Đăng nhập / Đăng ký -->
+                <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="authModalLabel">Tài khoản</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Tabs -->
+                                <ul class="nav nav-tabs" id="authTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Đăng nhập</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Đăng ký</button>
+                                    </li>
+                                </ul>
+
+                                <!-- Nội dung tab -->
+                                <div class="tab-content mt-3">
+                                    <!-- Đăng nhập -->
+                                    <div class="tab-pane fade show active" id="login" role="tabpanel">
+                                        <form asp-controller="Account" asp-action="Login" method="post">
+                                            <div class="mb-3">
+                                                <label>Email</label>
+                                                <input type="email" name="Email" class="form-control" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Mật khẩu</label>
+                                                <input type="password" name="Password" class="form-control" required />
+                                            </div>
+                                            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Đăng ký -->
+                                    <div class="tab-pane fade" id="register" role="tabpanel">
+                                        <form asp-controller="Account" asp-action="Register" method="post">
+                                            <div class="mb-3">
+                                                <label>Họ tên</label>
+                                                <input type="text" name="FullName" class="form-control" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Email</label>
+                                                <input type="email" name="Email" class="form-control" required />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label>Mật khẩu</label>
+                                                <input type="password" name="Password" class="form-control" required />
+                                            </div>
+                                            <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Giỏ hàng -->
                 <a asp-controller="Cart" asp-action="Index" class="btn btn-outline-dark position-relative">
                     <i class="bi bi-cart"></i> Giỏ hàng
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -59,7 +125,8 @@
             {
                 foreach (var cat in categories)
                 {
-                    <a asp-controller="Products" asp-action="ListByCategory" asp-route-id="@cat.CategoryID" class="badge bg-primary me-1 text-decoration-none">
+                    <a asp-controller="Products" asp-action="ListByCategory" asp-route-id="@cat.CategoryID"
+                       class="badge bg-primary me-1 text-decoration-none">
                         @cat.CategoryName
                     </a>
                 }
@@ -98,45 +165,6 @@
     <div class="container mt-4">
         <main role="main" class="pb-3">
             @RenderBody()
-            <div class="row g-4">
-                <!-- Bên trái -->
-                <div class="col-md-6">
-                    <h4 class="mb-3">Thông tin bên trái</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item">Sản phẩm nổi bật</li>
-                        <li class="list-group-item">Khuyến mãi đặc biệt</li>
-                        <li class="list-group-item">Tin công nghệ</li>
-                    </ul>
-                </div>
-
-                <!-- Bên phải với sản phẩm -->
-                <div class="col-md-6">
-                    <h4 class="mb-3">Sản phẩm mới nhất</h4>
-                    @if (products.Any())
-                    {
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                            @foreach (var p in products)
-                            {
-                                <div class="col">
-                                    <div class="card h-100 shadow-sm">
-                                        <img src="@p.Image" class="card-img-top" alt="@p.ProductName" style="height: 200px; object-fit: cover;" />
-                                        <div class="card-body">
-                                            <h5 class="card-title">@p.ProductName</h5>
-                                            <p class="card-text text-danger fw-bold">@p.Price.ToString("N0") ₫</p>
-                                            <p class="card-text"><small class="text-muted">@p.Brand?.BrandName - @p.Category?.CategoryName</small></p>
-                                            <a asp-controller="Products" asp-action="Details" asp-route-id="@p.ProductID" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <p class="text-muted">Không có sản phẩm nào để hiển thị.</p>
-                    }
-                </div>
-            </div>
         </main>
     </div>
 

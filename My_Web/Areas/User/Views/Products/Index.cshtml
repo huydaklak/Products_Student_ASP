@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    var products = ViewBag.Products as List<My_Web.Models.Product>;
+}
+
+<h2>Danh sách sản phẩm</h2>
+<ul>
+    @foreach (var product in products)
+    {
+        <li>
+            <strong>@product.ProductName</strong> - @product.Price.ToString("N0") VNĐ
+            <a href="/User/Products/Details/@product.ProductID">Chi tiết</a>
+        </li>
+    }
+</ul>

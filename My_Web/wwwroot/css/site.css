@@ -20,3 +20,16 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 0.9rem;
+}
+
+.card-footer {
+    padding-top: 0;
+}

@@ -1,0 +1,32 @@
+﻿@model List<My_Web.Models.CartItem>
+
+<h2>Xác nhận đơn hàng</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Price.ToString("N0")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form method="post" action="/User/Order/PlaceOrder">
+    <label>Địa chỉ nhận hàng:</label>
+    <input type="text" name="Address" required />
+    <label>Số điện thoại:</label>
+    <input type="text" name="Phone" required />
+    <label>Ghi chú:</label>
+    <textarea name="Note"></textarea>
+    <button type="submit">Đặt hàng</button>
+</form>
